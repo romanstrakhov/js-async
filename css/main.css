@@ -1,0 +1,23 @@
+body {
+
+
+
+}
+
+.invert {
+
+	background: #333;
+	color: white;
+}
+
+.animate {
+	color: #999;
+	transition-property: color;
+	transition-duration: 0.5s;
+	transition-delay: 0s;
+	transition-timing-function: ease-in-out;
+}
+
+.animate:hover {
+	color: #fff;
+	;

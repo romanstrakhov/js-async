@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Link maker</title>
+<!-- <link rel="stylesheet" type="text/css" href="css/reset.css"> -->
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<link rel="stylesheet" type="text/css" href="css/awsm.min.css">
+<link rel="stylesheet" type="text/css" href="css/animate.css">
+<!-- Repository: https://github.com/daneden/animate.css -->
+<!-- Demo: https://daneden.github.io/animate.css/ -->
+<!-- <script src="js/jquery.224.min.js"></script> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+
+<!-- <script src="js/script.js"></script> -->
+<style>
+
+	#linkinput__submit {
+		width:10%;
+		padding: 5px;
+		border-radius: 5px;
+		font-size:18px;
+
+	}
+
+	#linkinput__text {
+		border-radius: 5px;
+		width:80%;
+		padding: 5px;
+		font-size:18px;
+	}
+
+
+	#linkresult__form {
+		width:90%;
+		margin-top: 20px;
+	}
+
+	#linkresult__text {
+		padding: 5px;
+		border:1px solid #ccc;
+		border-radius: 5px;
+
+		width:100%;
+		height:200px;
+	}
+
+
+</style>
+
+<script>
+
+var e_h1;
+var e_form;
+var e_submit;
+
+// regexp for URL (the Holy Grail!)
+// $1 = protocol
+//
+// var reURL = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/;
+
+//var reURL = /^(https?:\/\/)?([\w\.]+)\.([a-z]{2,6}\.?)(\/[\w\.]*)*\/?$/
+
+var reURL = /^(?:([a-z]+):(?:([a-z]*):)?\/\/)?(?:([^:@]*)(?::([^:@]*))?@)?((?:[a-z0-9_-]+\.)+[a-z]{2,}|localhost|(?:(?:[01]?\d\d?|2[0-4]\d|25[0-5])\.){3}(?:(?:[01]?\d\d?|2[0-4]\d|25[0-5])))(?::(\d+))?(?:([^:\?\#]+))?(?:\?([^\#]+))?(?:\#([^\s]+))?$/i
+
+
+function init() {
+
+e_form = document.getElementById('linkinput__form');
+e_input = document.getElementById('linkinput__text');
+e_result = document.getElementById('linkresult__text');
+// e_submit = document.getElementById('linkinput__submit');
+
+e_form.addEventListener('submit', function(){ return makeLink(); });
+// e_submit.addEventListener('click', function(){ return testClick(2); });
+
+function makeLink() {
+
+	// 1. Is correct URL: http:/, https://, if not — correct, back to 
+
+	var input_url = e_input.value;
+
+
+
+	console.log('URL:', input_url);
+	console.log(e_input.value.match(reURL));
+
+
+	//console.log('Click!', e_form, e_submit);
+
+	e_result.value += input_url;
+	e_result.value += "\n";
+
+
+
+
+	return false;
+	}
+
+}
+
+
+/*
+$(document).ready(function(){
+
+
+	// $("#linkinput__submit").click(makeLink());
+    $('#linkinput__line').focus();
+	$('#linkinput__form').on('submit', function(){ makeLink() });
+	$('#linkinput__submit').on('click', function(){ makeLink() });
+
+
+    // $("#searchline").on('input',function() {
+    //     console.log("input. search [" + $("#searchline")[0].value.toLowerCase() + "]");
+    //     updateSearch();
+    //     });
+    
+    // var delayTimer;
+    // var lastSearch;
+    // var needle;
+    // var fulllist = $("details.details__list");
+
+	function makeLink() {
+	
+		console.log("makeLink() executed");
+		// console.log("makeLink() executed");
+		// setTimeout(console.log("makeLink() executed"), 2000);
+
+
+
+		// 1. Is correct URL: http:/, https://, if not — correct, back to 
+
+        // clearTimeout(delayTimer);
+        // setTimeout(function() {
+
+        //     needle = $("#searchline")[0].value.toLowerCase();
+
+        //     if (needle!=lastSearch) {
+        //         console.log("do. search [" + needle + "]");
+        //         for (i=0;i<fulllist.length;i++) {
+        //             if (needle=="") {
+        //                 fulllist[i].hidden = false;
+        //             } else {
+        //                 var str = fulllist[i].innerHTML.toLowerCase();
+        //                 if (str.indexOf(needle)>0) {
+        //                     fulllist[i].hidden = false;
+        //                 } else {
+        //                     fulllist[i].hidden = true;   
+        //                 }
+        //             }
+        //         }
+        //         lastSearch = needle;
+        //     }
+
+        // }, 500);                
+            
+        return false;
+    }
+
+}); // document ready  
+*/
+
+</script>
+
+</head>
+<body onLoad="javascript:init();">
+
+<h1 id="header">E2 Link Collector</h1>
+<p>Insert link and wait for magic...</p>
+
+<div id="linkinput" style="">
+<form id="linkinput__form" action="javascript:false;">
+	<input type="text" id="linkinput__text" name="searchline">
+	<input type="submit" id="linkinput__submit" name="collect" value="Collect">	
+</form>
+</div>
+
+<div class="linkresult" style="">
+<form id="linkresult__form">
+	<textarea id="linkresult__text"></textarea>
+</form>
+</div>
+
+
+</body>
+</html>
