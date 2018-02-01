@@ -16,6 +16,16 @@
 <!-- <script src="js/script.js"></script> -->
 <style>
 
+	html {
+		color: #ccc;
+		background-color: #333;
+	}
+
+	input, textarea {
+		color: #ccc;
+		background-color: #333;
+	}
+
 	#linkinput__submit {
 		width:10%;
 		padding: 5px;
@@ -45,8 +55,6 @@
 		width:100%;
 		height:200px;
 	}
-
-
 </style>
 
 <script>
@@ -55,8 +63,8 @@ var e_h1;
 var e_form;
 var e_submit;
 
-// regexp for URL (the Holy Grail!)
-// $1 = protocol
+//	regexp for URL (the Holy Grail!)
+//	http://blog.mattheworiordan.com/post/13174566389/url-regular-expression-for-links-with-or-without
 //
 // var reURL = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/;
 
@@ -68,16 +76,19 @@ var e_submit;
 var reURL = /^(https?:\/\/)?([\wА-ЯЁа-яЁ\.]+)\.(.*)*\/?$/
 
 // gthb0837cp
+//
+// other...
+//
+//var reURL = /^(https?:\/\/)?([\w\.]+)\.([a-z]{2,6}\.?)(\/[\w\.]*)*\/?$/
+// var reURL = /^(?:([a-z]+):(?:([a-z]*):)?\/\/)?(?:([^:@]*)(?::([^:@]*))?@)?((?:[a-z0-9_-]+\.)+[a-z]{2,}|localhost|(?:(?:[01]?\d\d?|2[0-4]\d|25[0-5])\.){3}(?:(?:[01]?\d\d?|2[0-4]\d|25[0-5])))(?::(\d+))?(?:([^:\?\#]+))?(?:\?([^\#]+))?(?:\#([^\s]+))?$/i
 
 function init() {
 
 e_form = document.getElementById('linkinput__form');
 e_input = document.getElementById('linkinput__text');
 e_result = document.getElementById('linkresult__text');
-// e_submit = document.getElementById('linkinput__submit');
 
 e_form.addEventListener('submit', function(){ return makeLink(); });
-// e_submit.addEventListener('click', function(){ return testClick(2); });
 
 function makeLink() {
 
@@ -98,6 +109,8 @@ function makeLink() {
 		console.log('parse error');
 		return false;
 	}
+
+
 
 	console.log('URL:', input_url);
 	console.log(parse_url);
@@ -129,7 +142,7 @@ function makeLink() {
 		try {
 			var res = result.match(reH1)[1] || result.match(reTitle)[1];
 			return(res);
-		} catch {
+		} catch(error) {
 			console.info(result);
 			throw new Error('Can\'t parse string');
 		}
