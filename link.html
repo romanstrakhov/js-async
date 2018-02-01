@@ -50,7 +50,7 @@
 </style>
 
 <script>
-
+1
 var e_h1;
 var e_form;
 var e_submit;
@@ -60,9 +60,12 @@ var e_submit;
 //
 // var reURL = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/;
 
-//var reURL = /^(https?:\/\/)?([\w\.]+)\.([a-z]{2,6}\.?)(\/[\w\.]*)*\/?$/
+// var reURL = /^(https?:\/\/)?([\w\.]+)\.([a-z]{2,6}\.?)(\/[\w\.]*)*\/?$/
 
-var reURL = /^(?:([a-z]+):(?:([a-z]*):)?\/\/)?(?:([^:@]*)(?::([^:@]*))?@)?((?:[a-z0-9_-]+\.)+[a-z]{2,}|localhost|(?:(?:[01]?\d\d?|2[0-4]\d|25[0-5])\.){3}(?:(?:[01]?\d\d?|2[0-4]\d|25[0-5])))(?::(\d+))?(?:([^:\?\#]+))?(?:\?([^\#]+))?(?:\#([^\s]+))?$/i
+// var reURL = /^(?:([a-z]+):(?:([a-z]*):)?\/\/)?(?:([^:@]*)(?::([^:@]*))?@)?((?:[a-z0-9_-]+\.)+[a-z]{2,}|localhost|(?:(?:[01]?\d\d?|2[0-4]\d|25[0-5])\.){3}(?:(?:[01]?\d\d?|2[0-4]\d|25[0-5])))(?::(\d+))?(?:([^:\?\#]+))?(?:\?([^\#]+))?(?:\#([^\s]+))?$/i
+
+// TODO: переписать regexp корректно!
+var reURL = /^(https?:\/\/)?([\wА-ЯЁа-яЁ\.]+)\.(.*)*\/?$/
 
 // gthb0837cp
 
@@ -81,17 +84,70 @@ function makeLink() {
 	// 1. Is correct URL: http:/, https://, if not — correct, back to 
 
 	var input_url = e_input.value;
+	var parse_url = e_input.value.match(reURL);
 
+	if (e_input.value === '') {
+		console.log('empty input');
+		return false;
+	}
 
+	if (parse_url && parse_url[1]===undefined && parse_url[0]!=='') {
+		console.log('no protocol');
+		input_url = "http://" + parse_url[0];
+	} else {
+		console.log('parse error');
+		return false;
+	}
 
 	console.log('URL:', input_url);
-	console.log(e_input.value.match(reURL));
-
+	console.log(parse_url);
 
 	//console.log('Click!', e_form, e_submit);
 
 	e_result.value += input_url;
 	e_result.value += "\n";
+
+
+	var read_url = new Promise( (resolve, reject) => {
+
+		setTimeout(() => {
+			console.log('promise resolved')
+
+			resolve('<html><head><title>MyTitle</title></head><body><h1>MyHeader1</h1></body></html>');
+
+		}, 1000);
+		// err('---');
+	});
+
+	read_url.then(result => {
+
+		// Parse html
+
+		var reTitle = /<title>([^<]*)<\/title>/i
+		var reH1 = /<h1>([^<]*)<\/h1>/i
+
+		try {
+			var res = result.match(reH1)[1] || result.match(reTitle)[1];
+			return(res);
+		} catch {
+			console.info(result);
+			throw new Error('Can\'t parse string');
+		}
+
+	})
+	.then(result => {
+
+	e_result.value += "${ result }\n";
+
+
+	});
+
+
+
+
+
+
+
 
 
 
